@@ -1,7 +1,7 @@
 # hardcoded-creds
 Simple Java app intentionally using a hardcoded password
 
-## Using
+## Building
 
 After cloning this repository build it by issuing the following command
 from the root directory:
@@ -10,10 +10,10 @@ from the root directory:
 $ ./gradlew clean build
 ```
 
-Still in the root directory run the compiled application as follows:
+## Expected Analysis
 
 ```bash
-$ java -cp app/build/classes/java/main com.application.App
-Sender password is <PASSWORD>
-All done
+ ✗ [Medium] Use of Hardcoded Credentials 
+   Path: app/src/main/java/com/application/App.java, line 74 
+   Info: Do not hardcode passwords in code. Found password string
 ```

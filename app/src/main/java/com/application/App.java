@@ -3,47 +3,78 @@
  */
 package com.application;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+import static java.lang.System.out;
+
 public class App {
 
-    private static final String MY_SENDER_ID = "sender";
-    private static final String MY_SENDER_PASSWORD = "<PASSWORD>";
+    private static final String MY_USER = "sender";
+    private static final String MY_PASSWORD = "<PASSWORD>";
 
-    private final String _senderId;
-    private final String _senderPassword;
+    private final String connectionUser;
+    private final String connectionPassword;
 
     public App() {
-        _senderId = MY_SENDER_ID;
-        _senderPassword = MY_SENDER_PASSWORD;
+        connectionUser = MY_USER;
+        connectionPassword = MY_PASSWORD;
     }
 
-    public String getSenderPass() {
-        return this._senderPassword;
+    public String getConnectionPassword() {
+        return this.connectionPassword;
+    }
+
+    public String getConnectionUser() {
+        return this.connectionUser;
     }
 
     public static void main(String[] args) {
         App app = new App();
-        Something something = new Something();
-        something.setSenderPassword(app.getSenderPass());
-        System.out.println("Sender password is " + something.getSenderPassword());
-        System.out.println("All done");
+        ConnectionWrapper wrapper = new ConnectionWrapper();
+        wrapper.setUser(app.getConnectionUser());
+        wrapper.setPassword(app.getConnectionPassword());
+        out.println("Connection user is " + wrapper.getUser());
+        out.println("Connection password is " + wrapper.getPassword());
+
+        wrapper.prepareConnection("jdbc:mysql://localhost:3306/foo");
+        out.println("All done");
     }
 
 
-    static class Something {
-        private String senderPass;
-        private String sender;
+    static class ConnectionWrapper {
 
-        public String getSenderPassword() {
-            return senderPass;
+        private Connection connection;
+
+        private String password;
+        private String user;
+
+        public String getPassword() {
+            return password;
         }
 
-        public void setSenderPassword(String password) {
-            this.senderPass = password;
+        public void setPassword(String password) {
+            this.password = password;
         }
 
-        public String getSender() {
-            return sender;
+        public String getUser() {
+            return user;
         }
 
+        public void setUser(String user) {
+            this.user = user;
+        }
+
+        public void prepareConnection(String url) {
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+
+                // NOTE: Passing string constant directly as password argument
+                connection = DriverManager.getConnection(url, user, MY_PASSWORD);
+            } catch (SQLException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }
