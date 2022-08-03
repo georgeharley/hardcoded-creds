@@ -70,8 +70,9 @@ public class App {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
 
-                // NOTE: Passing string constant directly as password argument
-                connection = DriverManager.getConnection(url, user, MY_PASSWORD);
+                // NOTE: Passing value of string field as password argument
+                // where the field was set using a hard coded value...
+                connection = DriverManager.getConnection(url, this.user, this.password);
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }

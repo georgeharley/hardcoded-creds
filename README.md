@@ -10,10 +10,10 @@ from the root directory:
 $ ./gradlew clean build
 ```
 
-## Expected Analysis
+## Analysis result
 
 ```bash
- ✗ [Medium] Use of Hardcoded Credentials 
-   Path: app/src/main/java/com/application/App.java, line 74 
-   Info: Do not hardcode passwords in code. Found password string
+ Summary:
+
+✔ Awesome! No issues were found.
 ```
